@@ -1,7 +1,5 @@
 #!/bin/bash
 
-MATLAB_BIN_DIR=/usr/local/MATLAB/R2018a/bin/
-
 SELF_DIR=$(dirname "$(readlink -f "$0")")
 
 ROOT_DIR=${SELF_DIR}/..
@@ -32,14 +30,14 @@ if [[ -f ${nm_img_file_orig} ]]; then
 	echo "done"
 
 	echo -n "[Subject ${sub_id}] Rigidly registering ${type} image to T1w image ... "
-	mirtk register ${t1w_img_file_reg} ${nm_img_file_reg} -parin ${PAR_FILE_RIG} -dofin ${DOFS_DIR}/${sub_id}_initial_rigid_transform.dof.gz -dofout ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -v 0
+	${MIRTK_BIN_DIR}/mirtk register ${t1w_img_file_reg} ${nm_img_file_reg} -parin ${PAR_FILE_RIG} -dofin ${DOFS_DIR}/${sub_id}_initial_rigid_transform.dof.gz -dofout ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -v 0
 	echo "done"
 
 	echo -n "[Subject ${sub_id}] Computing transformed ${type} image ... "
-	mirtk transform-image ${nm_img_file_reg} ${nm_img_file_reg} -target ${t1w_img_file_reg} -dofin ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz
+	${MIRTK_BIN_DIR}/mirtk transform-image ${nm_img_file_reg} ${nm_img_file_reg} -target ${t1w_img_file_reg} -dofin ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz
 	echo "done"
 
 	echo -n "[Subject ${sub_id}] Masking ${type} image ... "
-	mirtk calculate ${nm_img_file_reg} -mask ${t1w_img_file_mask} -pad 0 -o ${nm_img_file_reg}
+	${MIRTK_BIN_DIR}/mirtk calculate ${nm_img_file_reg} -mask ${t1w_img_file_mask} -pad 0 -o ${nm_img_file_reg}
 	echo "done"
 fi

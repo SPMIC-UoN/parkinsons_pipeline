@@ -30,7 +30,7 @@ if [[ -f ${nm_img_file} ]]; then
 		label=${labels[$index]}
 		
 		echo -n "[(Initial) Subject ${sub_id}] Propagating weight map of label '${label}' back to subject space (${type} version) ... "
-		mirtk transform-image ${TEMPLATE_DIR}/${label}_weight_map.nii.gz ${REG_DIR}/${sub_id}_${label}_synth-${type}_weight_map.nii.gz -target ${nm_img_file} -dofin_i ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz
+		${MIRTK_BIN_DIR}/mirtk transform-image ${TEMPLATE_DIR}/${label}_weight_map.nii.gz ${REG_DIR}/${sub_id}_${label}_synth-${type}_weight_map.nii.gz -target ${nm_img_file} -dofin_i ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz
 		echo "done"
 	done
 
@@ -39,7 +39,7 @@ if [[ -f ${nm_img_file} ]]; then
 	echo "done"
 
 	echo -n "[(Initial) Subject ${sub_id}] Non-linearly registering synthetic ${type} image to MNI space ... "
-	mirtk register ${TEMPLATE_DIR}/synth_template.nii.gz ${synth_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
+	${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/synth_template.nii.gz ${synth_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
 	echo "done"
 	
 	echo -n "[(Initial) Subject ${sub_id}] Making backup of current synthetic ${type} image ... "
@@ -51,7 +51,7 @@ if [[ -f ${nm_img_file} ]]; then
 			label=${labels[$index]}
 			
 			echo -n "[(Iteration ${iter}) Subject ${sub_id}] Propagating weight map of label '${label}' back to subject space (${type} version) ... "
-			mirtk transform-image ${TEMPLATE_DIR}/${label}_weight_map.nii.gz ${REG_DIR}/${sub_id}_${label}_synth-${type}_weight_map.nii.gz -target ${nm_img_file} -dofin_i ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz
+			${MIRTK_BIN_DIR}/mirtk transform-image ${TEMPLATE_DIR}/${label}_weight_map.nii.gz ${REG_DIR}/${sub_id}_${label}_synth-${type}_weight_map.nii.gz -target ${nm_img_file} -dofin_i ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz
 			echo "done"
 		done
 
@@ -60,11 +60,11 @@ if [[ -f ${nm_img_file} ]]; then
 		echo "done"
 
 		echo -n "[(Iteration ${iter}) Subject ${sub_id}] Non-linearly registering synthetic ${type} image to MNI space ... "
-		mirtk register ${TEMPLATE_DIR}/synth_template.nii.gz ${synth_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
+		${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/synth_template.nii.gz ${synth_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
 		echo "done"
 		
-		diff_thresh=`mirtk calculate ${synth_img_file} -mul 0.005 -range | awk -F ' ' '{print $3}'`
-		diff=`mirtk calculate ${synth_img_file} -sub ${tmp_dir}/synth_image_prev.nii.gz -abs -mask ${REG_DIR}/${sub_id}_brain_mask.nii.gz -pad 0 -mean | awk -F ' ' '{print $3}'`
+		diff_thresh=`${MIRTK_BIN_DIR}/mirtk calculate ${synth_img_file} -mul 0.005 -range | awk -F ' ' '{print $3}'`
+		diff=`${MIRTK_BIN_DIR}/mirtk calculate ${synth_img_file} -sub ${tmp_dir}/synth_image_prev.nii.gz -abs -mask ${REG_DIR}/${sub_id}_brain_mask.nii.gz -pad 0 -mean | awk -F ' ' '{print $3}'`
 		diff_test=`echo "${diff} < ${diff_thresh}" | bc -l`
 
 		if [ ${diff_test} -eq 1 ]; then

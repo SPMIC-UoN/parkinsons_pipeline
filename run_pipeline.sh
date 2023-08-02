@@ -3,6 +3,7 @@
 SELF_DIR=$(dirname "$(readlink -f "$0")")
 
 # Required folders
+SETUP_DIR=${SELF_DIR}/setup
 SCRIPTS_DIR=${SELF_DIR}/scripts
 DATA_DIR=${SELF_DIR}/Original
 
@@ -21,6 +22,9 @@ fi
 mkdir -p ${DOFS_DIR}
 mkdir -p ${MNI_SPACE_DIR}
 mkdir -p ${MPRAGE_SPACE_DIR}
+
+# Load enviromental variables
+source ${SETUP_DIR}/SetUpVariables.sh
 
 # Run pipeline for all subjects with T1w and NM/MAGiC sequences
 for img_file in ${DATA_DIR}/sub-*_T1w.nii.gz; do
