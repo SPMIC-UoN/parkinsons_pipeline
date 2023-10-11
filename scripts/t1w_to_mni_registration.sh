@@ -19,6 +19,10 @@ echo -n "[Subject ${sub_id}] Affinely registering T1w image to T1w MNI template 
 ${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_AFF} -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -v 0
 echo "done"
 
+echo -n "[Subject ${sub_id}] Affinely registering T1w image to T1w MNI template (ROI only) ... "
+${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_AFF} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
+echo "done"
+
 echo -n "[Subject ${sub_id}] Non-linearly registering T1w image to T1w MNI template ... "
 ${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
 echo "done"

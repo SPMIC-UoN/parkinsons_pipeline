@@ -14,12 +14,11 @@ PAR_FILE_AFF=${ROOT_DIR}/mirtk/mirtk-aff.cfg
 
 sub_id=$1
 
-t1w_img_file_orig=${DATA_DIR}/${sub_id}_T1w.nii.gz
 t1w_img_file_reg=${REG_DIR}/${sub_id}_T1w.nii.gz
 t1w_img_file_mask=${REG_DIR}/${sub_id}_brain_mask.nii.gz
 
 echo -n "[Subject ${sub_id}] Copying original T1w image ... "
-cp ${t1w_img_file_orig} ${t1w_img_file_reg}
+cp ${DATA_DIR}/${sub_id}_T1w.nii.gz ${t1w_img_file_reg}
 echo "done"
 
 echo -n "[Subject ${sub_id}] Running N4 on T1w image ... "

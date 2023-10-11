@@ -1,12 +1,13 @@
 function img_data = standardise_slice_intensities(img_data)
     num_slices = size(img_data, 3);
+    num_voxels_per_slice = numel(img_data(:,:,1));
 
     [~,e] = histcounts(img_data(:), 25);
     out_voxels = (img_data < e(2));
     
     % find second data slice
     s_init = 1;
-    while all(all(out_voxels(:,:,s_init)))
+    while sum(sum(out_voxels(:,:,s_init))) >= 0.6 * num_voxels_per_slice
         s_init = s_init + 1;
     end
     s_init = s_init + 1;
