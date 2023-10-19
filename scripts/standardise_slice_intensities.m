@@ -21,7 +21,10 @@ function img_data = standardise_slice_intensities(img_data)
         roi_next = ~out_voxels(:,:,s+1);
         w_prev = median(prev_slice(roi_prev)) / median(curr_slice(roi_curr));
         w_next = median(next_slice(roi_next)) / median(curr_slice(roi_curr));
-        w = (w_prev + w_next) / 2;
+        w = (w_prev + w_next) / 2;  
+        if isnan(w)
+            w = 1;
+        end
         img_data(:,:,s) = w .* img_data(:,:,s);
     end
 end
