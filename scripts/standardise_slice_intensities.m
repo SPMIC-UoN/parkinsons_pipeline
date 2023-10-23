@@ -12,7 +12,14 @@ function img_data = standardise_slice_intensities(img_data)
     end
     s_init = s_init + 1;
     
-    for s = s_init:2:num_slices-1
+    % find second to last data slice
+    s_end = num_slices;
+    while sum(sum(out_voxels(:,:,s_end))) >= 0.7 * num_voxels_per_slice
+        s_end = s_end - 1;
+    end
+    s_end = s_end - 1;
+    
+    for s = s_init:2:s_end
         curr_slice = img_data(:,:,s);
         prev_slice = img_data(:,:,s-1);
         next_slice = img_data(:,:,s+1);
