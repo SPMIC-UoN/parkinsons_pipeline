@@ -1,1 +1,86 @@
-# parkinsons_pipeline
+# Parkinson's pipeline
+
+## Table of Contents
+
+* [Prerequisities](#prerequisities)
+* [Setup](#setup)
+* [Script usage](#script-usage)
+* [Resulting data](#resulting-data)
+
+<a id="prerequisities"></a>
+## Prerequisities
+
+The Parkinson's Pipeline has the following software requirements:
+
+1. A 64-bit Linux Operating System.
+
+2. Advanced Normalisation Tools (https://github.com/ANTsX/ANTs) for N4 bias field correction.
+
+3. ROBEX brain extraction tool (https://www.nitrc.org/projects/robex).
+
+4. Medical Image Registration ToolKit (https://github.com/BioMedIA/MIRTK).
+
+5. MATLAB (we have tested version R2018a, but later versions and some older versions should work as well).
+
+-----
+
+<a id="setup"></a>
+## Setup
+
+### Data
+
+The T1-weighted and neuromelanin-sentitive Nifti data to be processed **must** be located in a specific folder named `Original` inside `${GITHUB_ROOT}`, where `${GITHUB_ROOT}` refers to the folder where this repository has been cloned into. It **must** also adhere to the following naming convention:
+
+<pre>
+${GITHUB_ROOT}
+   |
+   ---- Original
+           |
+           ----${subject_id}-${timepoint}_T1w.nii.gz
+           ----${subject_id}-${timepoint}_${nm_seq_type}.nii.gz
+</pre>
+
+`${subject_id}` is a unique identifier for each subject that can have any format.
+`${timepoint}` is the timepoint of the data (for longitudinal studies) and **must** be a single integer starting from "1" for baseline data then "2" for first follow-up, and so on. If no longitudinal data is used, this **must** be "1" for every subject.
+`${nm_seq_type}` is the name of the neuromelanin-sensitive sequence this data represent and can have any format but **must** be setup as a sequence type (see [Neuromelanin-sensitive sequence names](#neuromelanin-sensitive-sequence-names)).
+
+### Environmental variables
+
+The script [`SetUpVariables.sh](https://github.com/SPMIC-UoN/parkinsons_pipeline/blob/main/setup/SetUpVariables.sh) serves as a way for the user to setup the paths of the main software pre-requisites the pipeline has. Therefore, for the pipeline to work, the user has to edit this file to specify the specific software paths on their environment.
+
+<a id="neuromelanin-sensitive-sequence-names"></a>
+### Neuromelanin-sensitive sequence names
+
+The script [`SetUpNMTypes.sh`](https://github.com/SPMIC-UoN/parkinsons_pipeline/blob/main/setup/SetUpNMTypes.sh) serves as a way for the user to setup the names of the neuromelanin-sensitive sequences that will be processed. The user has to edit this file to specify the specific sequence names on their data. For every subject, only the files with `${nm_seq_type}` names specified in the array will be processed. If a subject does not have data for any of the specified sequences, the pipeline will safely ignore it and proceed with the next sequence type.
+
+-----
+
+<a id="script-usage"></a>
+## Script usage
+
+To run the pipeline, execute the `run_pipeline.sh` script. It will proceed with all subjects in the `${GITHUB_ROOT}/Original` folder and create a `${subject_id}-${timepoint}.processed` file upon completion. If a subject has already an associated `.processed` file, the pipeline will skip this subject and proceed with the next one.
+
+-----
+
+<a id="resulting-data"></a>
+## Resulting data
+
+The pipeline will store the resulting data using the following folder structure (which gets automatically created if it does not exist):
+
+<pre>
+${GITHUB_ROOT}
+   |
+   ---- Registered
+           |
+           ----dofs
+           ----MNI_space
+           ----MPRAGE_space
+</pre>
+
+`dofs` contains all the intermediate MIRTK transformations files.
+`MPRAGE_space` contains all the intermediate data in T1w structural space.
+`MNI_space` contains all the processed data in MNI152 space. This is the data that should be used for further analysis.
+
+### Inhomogeneity-corrected data
+
+The processed neuromelanin-sensitive data in the `MPRAGE_space` and `MNI_space` folders will included a version with `-corrected` appended in the name. This corresponds to data that has been corrected for inhomogeneities within the brainstem area (`MPRAGE_space`) and then transformed into MNI152 space (`MNI_space`). We recommend to use the `-corrected` data within `MNI_space` for further analyses.

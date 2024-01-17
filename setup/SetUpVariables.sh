@@ -5,6 +5,8 @@
 #
 # Script to initialise user-specific enviromental variables
 #
+# Only change variable values. DO NOT change variable names
+#
 
 # Path to MIRTK bin/ folder
 export MIRTK_BIN_DIR=/usr/local/MIRTK/bin/
