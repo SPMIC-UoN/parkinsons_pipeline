@@ -40,13 +40,13 @@ ${GITHUB_ROOT}
            ----${subject_id}-${timepoint}_${nm_seq_type}.nii.gz
 </pre>
 
-`${subject_id}` is a unique identifier for each subject that can have any format.
-`${timepoint}` is the timepoint of the data (for longitudinal studies) and **must** be a single integer starting from "1" for baseline data then "2" for first follow-up, and so on. If no longitudinal data is used, this **must** be "1" for every subject.
-`${nm_seq_type}` is the name of the neuromelanin-sensitive sequence this data represent and can have any format but **must** be setup as a sequence type (see [Neuromelanin-sensitive sequence names](#neuromelanin-sensitive-sequence-names)).
+* `${subject_id}` is a unique identifier for each subject that can have any format.
+* `${timepoint}` is the timepoint of the data (for longitudinal studies) and **must** be a single integer starting from "1" for baseline data then "2" for first follow-up, and so on. If no longitudinal data is used, this **must** be "1" for every subject.
+* `${nm_seq_type}` is the name of the neuromelanin-sensitive sequence this data represent and can have any format but **must** be setup as a sequence type (see [Neuromelanin-sensitive sequence names](#neuromelanin-sensitive-sequence-names)).
 
 ### Environmental variables
 
-The script [`SetUpVariables.sh](https://github.com/SPMIC-UoN/parkinsons_pipeline/blob/main/setup/SetUpVariables.sh) serves as a way for the user to setup the paths of the main software pre-requisites the pipeline has. Therefore, for the pipeline to work, the user has to edit this file to specify the specific software paths on their environment.
+The script [`SetUpVariables.sh`](https://github.com/SPMIC-UoN/parkinsons_pipeline/blob/main/setup/SetUpVariables.sh) serves as a way for the user to setup the paths of the main software pre-requisites the pipeline has. Therefore, for the pipeline to work, the user has to edit this file to specify the specific software paths on their environment.
 
 <a id="neuromelanin-sensitive-sequence-names"></a>
 ### Neuromelanin-sensitive sequence names
