@@ -9,7 +9,7 @@
 #
 
 # Path to MIRTK bin/ folder
-export MIRTK_BIN_DIR=/usr/local/MIRTK/bin/
+export MIRTK_BIN_DIR=/usr/local/mirtk/bin/
 
 # Path to MATLAB bin/ folder
 export MATLAB_BIN_DIR=/usr/local/MATLAB/R2018a/bin/
