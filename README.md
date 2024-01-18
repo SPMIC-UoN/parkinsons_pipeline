@@ -58,7 +58,7 @@ The script [`SetUpNMTypes.sh`](https://github.com/SPMIC-UoN/parkinsons_pipeline/
 <a id="script-usage"></a>
 ## Script usage
 
-To run the pipeline, execute the `run_pipeline.sh` script. It will proceed with all subjects in the `${GITHUB_ROOT}/Original` folder and create a `${subject_id}-${timepoint}.processed` file upon completion. If a subject has already an associated `.processed` file, the pipeline will skip this subject and proceed with the next one.
+To run the pipeline, execute the `run_pipeline.sh` script. It will proceed with all subjects in the `${GITHUB_ROOT}/Original` folder and create a `${subject_id}-${timepoint}.processed` file for each of them upon completion. If a subject has already an associated `.processed` file, the pipeline will skip this subject and proceed with the next one.
 
 -----
 
