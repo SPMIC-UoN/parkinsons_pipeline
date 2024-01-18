@@ -77,9 +77,9 @@ ${GITHUB_ROOT}
            ---- MPRAGE_space
 </pre>
 
-`dofs` contains all the intermediate MIRTK transformations files.
-`MPRAGE_space` contains all the intermediate data in T1w structural space.
-`MNI_space` contains all the processed data in MNI152 space. This is the data that should be used for further analysis.
+* `dofs` contains all the intermediate MIRTK transformations files.
+* `MPRAGE_space` contains all the intermediate data in T1w structural space.
+* `MNI_space` contains all the processed data in MNI152 space. This is the data that should be used for further analysis.
 
 ### Inhomogeneity-corrected data
 
