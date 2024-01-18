@@ -83,4 +83,4 @@ ${GITHUB_ROOT}
 
 ### Inhomogeneity-corrected data
 
-The processed neuromelanin-sensitive data in the `MPRAGE_space` and `MNI_space` folders will included a version with `-corrected` appended in the name. This corresponds to data that has been corrected for inhomogeneities within the brainstem area (`MPRAGE_space`) and then transformed into MNI152 space (`MNI_space`). We recommend to use the `-corrected` data within `MNI_space` for further analyses.
+The processed neuromelanin-sensitive data in the `MPRAGE_space` and `MNI_space` folders will include a version with `-corrected` appended in the file name (before the `.nii.gz` extension). This corresponds to data that has been corrected for inhomogeneities within the brainstem area (`MPRAGE_space`) and then transformed into MNI152 space (`MNI_space`). We recommend to use the `-corrected` data within `MNI_space` for further analyses.
