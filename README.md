@@ -36,8 +36,8 @@ ${GITHUB_ROOT}
    |
    ---- Original
            |
-           ----${subject_id}-${timepoint}_T1w.nii.gz
-           ----${subject_id}-${timepoint}_${nm_seq_type}.nii.gz
+           ---- ${subject_id}-${timepoint}_T1w.nii.gz
+           ---- ${subject_id}-${timepoint}_${nm_seq_type}.nii.gz
 </pre>
 
 * `${subject_id}` is a unique identifier for each subject that can have any format.
@@ -72,9 +72,9 @@ ${GITHUB_ROOT}
    |
    ---- Registered
            |
-           ----dofs
-           ----MNI_space
-           ----MPRAGE_space
+           ---- dofs
+           ---- MNI_space
+           ---- MPRAGE_space
 </pre>
 
 `dofs` contains all the intermediate MIRTK transformations files.
