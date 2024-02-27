@@ -13,19 +13,32 @@ PAR_FILE_FFD=${ROOT_DIR}/mirtk/mirtk-ffd.cfg
 
 sub_id=$1
 
+baseline_indicator=1
+while [[ ! -f ${REG_DIR}/${sub_id:0:-2}-${baseline_indicator}_T1w.nii.gz ]]; do 
+	let baseline_indicator=baseline_indicator+1
+done
+
 t1w_img_file=${REG_DIR}/${sub_id}_T1w.nii.gz
 
-echo -n "[Subject ${sub_id}] Affinely registering T1w image to T1w MNI template ... "
-${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_AFF} -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -v 0
-echo "done"
+if [[ "${sub_id:0-1}" == "${baseline_indicator}" ]]; then
+	echo -n "[Subject ${sub_id}] Affinely registering T1w image to T1w MNI template ... "
+	${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_AFF} -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -v 0
+	echo "done"
 
-echo -n "[Subject ${sub_id}] Affinely registering T1w image to T1w MNI template (ROI only) ... "
-${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_AFF} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
-echo "done"
+	echo -n "[Subject ${sub_id}] Affinely registering T1w image to T1w MNI template (ROI only) ... "
+	${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_AFF} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
+	echo "done"
 
-echo -n "[Subject ${sub_id}] Non-linearly registering T1w image to T1w MNI template (ROI only) ... "
-${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
-echo "done"
+	echo -n "[Subject ${sub_id}] Non-linearly registering T1w image to T1w MNI template (ROI only) ... "
+	${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
+	echo "done"
+else
+	dof_file_baseline=${DOFS_DIR}/${sub_id::-2}-1_T1w_to_template_ffd.dof.gz
+	
+	echo -n "[Subject ${sub_id}] Copying non-linear transformation of baseline T1w image to T1w MNI template ... "
+	cp ${dof_file_baseline} ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz
+	echo "done"
+fi
 
 echo -n "[Subject ${sub_id}] Propagating T1w image to MNI space ... "
 ${MIRTK_BIN_DIR}/mirtk transform-image ${t1w_img_file} ${REG_MNI_DIR}/${sub_id}_T1w.nii.gz -target ${TEMPLATE_DIR}/brain_masked.nii.gz -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz

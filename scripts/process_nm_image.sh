@@ -17,12 +17,12 @@ t1w_img_file_reg=${REG_DIR}/${sub_id}_T1w.nii.gz
 t1w_img_file_mask=${REG_DIR}/${sub_id}_brain_mask.nii.gz
 
 nm_img_file_orig=${DATA_DIR}/${sub_id}_${type}.nii.gz
-nm_img_file_orig_corr=${DATA_DIR}/${sub_id}_${type}_corrected.nii.gz
+nm_img_file_orig_corr=${DATA_DIR}/${sub_id}_${type}-slice-standardised.nii.gz
 nm_img_file_reg=${REG_DIR}/${sub_id}_${type}.nii.gz
 
 if [[ -f ${nm_img_file_orig} ]]; then
 	echo -n "[Subject ${sub_id}] Correcting interleaving artefacts on ${type} image ... "
-	${MATLAB_BIN_DIR}/matlab -nodesktop -nosplash -r "addpath(genpath('${SELF_DIR}')); create_corrected_image('${ROOT_DIR}', '${sub_id}', '${type}'); exit" > /dev/null
+	${MATLAB_BIN_DIR}/matlab -nodesktop -nosplash -r "addpath(genpath('${SELF_DIR}')); create_slice_standardised_image('${ROOT_DIR}', '${sub_id}', '${type}'); exit" > /dev/null
 	echo "done"
 	
 	echo -n "[Subject ${sub_id}] Copying corrected ${type} image ... "

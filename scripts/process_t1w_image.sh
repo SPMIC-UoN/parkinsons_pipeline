@@ -14,6 +14,11 @@ PAR_FILE_AFF=${ROOT_DIR}/mirtk/mirtk-aff.cfg
 
 sub_id=$1
 
+baseline_indicator=1
+while [[ ! -f ${DATA_DIR}/${sub_id:0:-2}-${baseline_indicator}_T1w.nii.gz ]]; do
+	let baseline_indicator=baseline_indicator+1
+done
+
 t1w_img_file_reg=${REG_DIR}/${sub_id}_T1w.nii.gz
 t1w_img_file_mask=${REG_DIR}/${sub_id}_brain_mask.nii.gz
 
@@ -25,7 +30,7 @@ echo -n "[Subject ${sub_id}] Running N4 on T1w image ... "
 ${ANTSPATH}/N4BiasFieldCorrection -i ${t1w_img_file_reg} -o ${t1w_img_file_reg} -d 3 -s 3 > /dev/null
 echo "done"
 
-if [[ "${sub_id:0-1}" != "1" ]]; then
+if [[ "${sub_id:0-1}" != "${baseline_indicator}" ]]; then
 	t1w_img_file_reg_baseline=${DATA_DIR}/${sub_id::-2}-1_T1w.nii.gz
 	
 	echo -n "[Subject ${sub_id}] Rigidly registering T1w image to baseline T1w image ... "
