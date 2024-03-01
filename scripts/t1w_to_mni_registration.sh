@@ -33,10 +33,12 @@ if [[ "${sub_id:0-1}" == "${baseline_indicator}" ]]; then
 	${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/brain_masked.nii.gz ${t1w_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
 	echo "done"
 else
-	dof_file_baseline=${DOFS_DIR}/${sub_id::-2}-1_T1w_to_template_ffd.dof.gz
+	dof_file_baseline_aff=${DOFS_DIR}/${sub_id::-2}-1_T1w_to_template_aff.dof.gz
+	dof_file_baseline_ffd=${DOFS_DIR}/${sub_id::-2}-1_T1w_to_template_ffd.dof.gz
 	
-	echo -n "[Subject ${sub_id}] Copying non-linear transformation of baseline T1w image to T1w MNI template ... "
-	cp ${dof_file_baseline} ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz
+	echo -n "[Subject ${sub_id}] Copying affine and non-linear transformations of baseline T1w image to T1w MNI template ... "
+	cp ${dof_file_baseline_aff} ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz
+	cp ${dof_file_baseline_ffd} ${DOFS_DIR}/${sub_id}_T1w_to_template_ffd.dof.gz
 	echo "done"
 fi
 
