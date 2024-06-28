@@ -8,7 +8,8 @@ DATA_DIR=${ROOT_DIR}/Original
 REG_DIR=${ROOT_DIR}/Registered/MPRAGE_space
 DOFS_DIR=${ROOT_DIR}/Registered/dofs
 
-PAR_FILE_RIG=${ROOT_DIR}/mirtk/mirtk-rig.cfg
+PAR_FILE_RIG_NMI=${ROOT_DIR}/mirtk/mirtk-rig-NMI.cfg
+PAR_FILE_RIG_COS2=${ROOT_DIR}/mirtk/mirtk-rig-COS2.cfg
 
 sub_id=$1
 type=$2
@@ -30,7 +31,8 @@ if [[ -f ${nm_img_file_orig} ]]; then
 	echo "done"
 
 	echo -n "[Subject ${sub_id}] Rigidly registering ${type} image to T1w image ... "
-	${MIRTK_BIN_DIR}/mirtk register ${t1w_img_file_reg} ${nm_img_file_reg} -parin ${PAR_FILE_RIG} -dofin ${DOFS_DIR}/${sub_id}_initial_rigid_transform.dof.gz -dofout ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -v 0
+	${MIRTK_BIN_DIR}/mirtk register ${t1w_img_file_reg} ${nm_img_file_reg} -parin ${PAR_FILE_RIG_NMI} -dofin ${DOFS_DIR}/${sub_id}_initial_rigid_transform.dof.gz -dofout ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -v 0
+	${MIRTK_BIN_DIR}/mirtk register ${t1w_img_file_reg} ${nm_img_file_reg} -parin ${PAR_FILE_RIG_COS2} -dofin ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -dofout ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -v 0
 	echo "done"
 
 	echo -n "[Subject ${sub_id}] Computing transformed ${type} image ... "
