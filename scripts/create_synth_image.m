@@ -1,5 +1,5 @@
 function create_synth_image(base_dir, id, type)
-    data_dir = [base_dir '/Registered/MPRAGE_space/'];
+    data_dir = fullfile(base_dir, 'Registered', 'MPRAGE_space');
     
     t1w_file = [id '_T1w.nii.gz'];
     nm_file = strrep(t1w_file, 'T1w', type);
