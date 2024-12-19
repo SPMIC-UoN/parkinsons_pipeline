@@ -36,7 +36,7 @@ ${GITHUB_ROOT}
    |
    ---- Original
            |
-           ---- sub-{subject_id}-${timepoint}_T1w.nii.gz
+           ---- sub-${subject_id}-${timepoint}_T1w.nii.gz
            ---- sub-${subject_id}-${timepoint}_${nm_seq_type}.nii.gz
 </pre>
 
