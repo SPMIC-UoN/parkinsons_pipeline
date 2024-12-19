@@ -12,7 +12,7 @@ DOFS_DIR=${ROOT_DIR}/Registered/dofs
 PAR_FILE_AFF=${ROOT_DIR}/mirtk/mirtk-aff.cfg
 PAR_FILE_FFD=${ROOT_DIR}/mirtk/mirtk-ffd.cfg
 
-labels=('background' 'r_sn' 'l_sn' 'r_peduncle' 'l_peduncle' 'r_midbrain' 'l_midbrain')
+labels=('background' 'brainstem' 'r_sn' 'l_sn')
 
 sub_id=$1
 type=$2
@@ -29,7 +29,7 @@ synth_img_file=`echo ${nm_img_file} | sed s/${type}/synth-${type}/g`
 
 if [[ -f ${nm_img_file} ]]; then
 	if [[ "${sub_id:0-1}" == "${baseline_indicator}" ]] || [[ ! -f ${nm_img_file_baseline} ]]; then
-		for index in {0..6}; do
+		for index in {0..3}; do
 			label=${labels[$index]}
 			
 			echo -n "[(Initial) Subject ${sub_id}] Propagating weight map of label '${label}' back to subject space (${type} version) ... "
@@ -45,7 +45,7 @@ if [[ -f ${nm_img_file} ]]; then
 		${MIRTK_BIN_DIR}/mirtk register ${TEMPLATE_DIR}/synth_template.nii.gz ${synth_img_file} -parin ${PAR_FILE_FFD} -dofin ${DOFS_DIR}/${sub_id}_T1w_to_template_aff.dof.gz -dofout ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -mask ${TEMPLATE_DIR}/ROI_mask.nii.gz -v 0
 		echo "done"
 
-		for index in {0..6}; do
+		for index in {0..3}; do
 			label=${labels[$index]}
 			
 			echo -n "[(Refined) Subject ${sub_id}] Propagating weight map of label '${label}' back to subject space (${type} version) ... "
@@ -68,7 +68,7 @@ if [[ -f ${nm_img_file} ]]; then
 		echo "done"
 	fi
 	
-	for index in {0..6}; do
+	for index in {0..3}; do
 		label=${labels[$index]}
 		
 		echo -n "[(Final) Subject ${sub_id}] Propagating weight map of label '${label}' back to subject space (${type} version) ... "

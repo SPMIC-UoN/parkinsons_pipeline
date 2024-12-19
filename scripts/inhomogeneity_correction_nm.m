@@ -1,8 +1,5 @@
 function img_nm = inhomogeneity_correction_nm(img_nm, struc_prior_maps)   
-    brainstem_prior_map = struc_prior_maps.l_peduncle_prior + ...
-                          struc_prior_maps.r_peduncle_prior + ...
-                          struc_prior_maps.l_midbrain_prior + ...
-                          struc_prior_maps.r_midbrain_prior;
+    brainstem_prior_map = struc_prior_maps.brainstem_prior;
     
     background_thresh = compute_nm_background_threshold(img_nm);
     roi_indices = find((img_nm(:) > background_thresh) & (brainstem_prior_map(:) > 0));

@@ -7,12 +7,9 @@ function create_synth_image(base_dir, id, type)
     synth_nm_file = strrep(t1w_file, 'T1w', ['synth-' type]);
     
     synth_nm_background_weight_file = strrep(t1w_file, 'T1w', ['background_synth-' type '_weight_map']);
+    synth_nm_brainstem_weight_file = strrep(t1w_file, 'T1w', ['brainstem_synth-' type '_weight_map']);
     synth_nm_l_sn_weight_file = strrep(t1w_file, 'T1w', ['l_sn_synth-' type '_weight_map']);
     synth_nm_r_sn_weight_file = strrep(t1w_file, 'T1w', ['r_sn_synth-' type '_weight_map']);
-    synth_nm_l_peduncle_weight_file = strrep(t1w_file, 'T1w', ['l_peduncle_synth-' type '_weight_map']);
-    synth_nm_r_peduncle_weight_file = strrep(t1w_file, 'T1w', ['r_peduncle_synth-' type '_weight_map']);
-    synth_nm_l_midbrain_weight_file = strrep(t1w_file, 'T1w', ['l_midbrain_synth-' type '_weight_map']);
-    synth_nm_r_midbrain_weight_file = strrep(t1w_file, 'T1w', ['r_midbrain_synth-' type '_weight_map']);
     
     if exist(fullfile(data_dir, nm_file), 'file')
         nii_t1w = load_untouch_nii(fullfile(data_dir, t1w_file));
@@ -22,20 +19,14 @@ function create_synth_image(base_dir, id, type)
         nm_data = double(nii_nm.img);
 
         nii_synth_nm_background_weight = load_untouch_nii(fullfile(data_dir, synth_nm_background_weight_file));
+        nii_synth_nm_brainstem_weight = load_untouch_nii(fullfile(data_dir, synth_nm_brainstem_weight_file));
         nii_synth_nm_l_sn_weight = load_untouch_nii(fullfile(data_dir, synth_nm_l_sn_weight_file));
         nii_synth_nm_r_sn_weight = load_untouch_nii(fullfile(data_dir, synth_nm_r_sn_weight_file));
-        nii_synth_nm_l_peduncle_weight = load_untouch_nii(fullfile(data_dir, synth_nm_l_peduncle_weight_file));
-        nii_synth_nm_r_peduncle_weight = load_untouch_nii(fullfile(data_dir, synth_nm_r_peduncle_weight_file));
-        nii_synth_nm_l_midbrain_weight = load_untouch_nii(fullfile(data_dir, synth_nm_l_midbrain_weight_file));
-        nii_synth_nm_r_midbrain_weight = load_untouch_nii(fullfile(data_dir, synth_nm_r_midbrain_weight_file));
 
         struc_weight_maps.background_weight = nii_synth_nm_background_weight.img;
+        struc_weight_maps.brainstem_weight = nii_synth_nm_brainstem_weight.img;
         struc_weight_maps.l_sn_weight = nii_synth_nm_l_sn_weight.img;
         struc_weight_maps.r_sn_weight = nii_synth_nm_r_sn_weight.img;
-        struc_weight_maps.l_peduncle_weight = nii_synth_nm_l_peduncle_weight.img;
-        struc_weight_maps.r_peduncle_weight = nii_synth_nm_r_peduncle_weight.img;
-        struc_weight_maps.l_midbrain_weight = nii_synth_nm_l_midbrain_weight.img;
-        struc_weight_maps.r_midbrain_weight = nii_synth_nm_r_midbrain_weight.img;
 
         struc_prior_maps = weight2prior(struc_weight_maps);
 

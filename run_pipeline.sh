@@ -14,7 +14,7 @@ MNI_SPACE_DIR=${REG_DIR}/MNI_space
 MPRAGE_SPACE_DIR=${REG_DIR}/MPRAGE_space
 
 if [[ ! -d ${DATA_DIR} ]]; then
-	echo "No original data folder found!"
+	echo "ERROR: No original data folder found!"
 	exit 1
 fi
 
