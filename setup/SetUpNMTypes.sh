@@ -9,4 +9,4 @@
 #
 
 # Array of sequence name strings
-export NM_TYPE_ARRAY=('NM' 'MAGiC-PD' 'GRE-MT')
+export NM_TYPE_ARRAY=('NM' 'GRE-MT')
