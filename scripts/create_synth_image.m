@@ -3,7 +3,6 @@ function create_synth_image(base_dir, id, type)
     
     t1w_file = [id '_T1w.nii.gz'];
     nm_file = strrep(t1w_file, 'T1w', type);
-    nm_corrected_file = strrep(t1w_file, 'T1w', [type '-corrected']);
     synth_nm_file = strrep(t1w_file, 'T1w', ['synth-' type]);
     
     synth_nm_background_weight_file = strrep(t1w_file, 'T1w', ['background_synth-' type '_weight_map']);
@@ -16,7 +15,7 @@ function create_synth_image(base_dir, id, type)
         img_t1w = double(nii_t1w.img);
 
         nii_nm = load_untouch_nii(fullfile(data_dir, nm_file));
-        nm_data = double(nii_nm.img);
+        img_nm = double(nii_nm.img);
 
         nii_synth_nm_background_weight = load_untouch_nii(fullfile(data_dir, synth_nm_background_weight_file));
         nii_synth_nm_brainstem_weight = load_untouch_nii(fullfile(data_dir, synth_nm_brainstem_weight_file));
@@ -30,8 +29,7 @@ function create_synth_image(base_dir, id, type)
 
         struc_prior_maps = weight2prior(struc_weight_maps);
 
-        nm_data_corrected = inhomogeneity_correction_nm(nm_data, struc_prior_maps);
-        [img_synth_nm, ~] = compute_synth_data(nm_data_corrected, img_t1w, struc_prior_maps);
+        [img_synth_nm, ~] = compute_synth_data(img_nm, img_t1w, struc_prior_maps);
 
         nii_synth_nm = nii_t1w;
         nii_synth_nm.img = img_synth_nm;
@@ -41,14 +39,5 @@ function create_synth_image(base_dir, id, type)
         nii_synth_nm.hdr.dime.glmax = max(nii_synth_nm.img(:));
 
         save_untouch_nii(nii_synth_nm, fullfile(data_dir, synth_nm_file));
-        
-        nii_nm_corrected = nii_t1w;
-        nii_nm_corrected.img = nm_data_corrected;
-        nii_nm_corrected.hdr.dime.bitpix = 32;
-        nii_nm_corrected.hdr.dime.datatype = 16;
-        nii_nm_corrected.hdr.dime.glmin = min(nii_nm_corrected.img(:));
-        nii_nm_corrected.hdr.dime.glmax = max(nii_nm_corrected.img(:));
-
-        save_untouch_nii(nii_nm_corrected, fullfile(data_dir, nm_corrected_file));
     end
 end

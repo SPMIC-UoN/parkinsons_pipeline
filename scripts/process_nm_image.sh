@@ -28,6 +28,6 @@ if [[ -f ${nm_img_file_orig} ]]; then
 	echo "done"
 
 	echo -n "[Subject ${sub_id}] Computing transformed ${type} image ... "
-	${MIRTK_BIN_DIR}/mirtk transform-image ${nm_img_file_reg} ${nm_img_file_reg} -target ${t1w_img_file_reg} -dofin ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz
+	${MIRTK_BIN_DIR}/mirtk transform-image ${nm_img_file_reg} ${nm_img_file_reg} -target ${t1w_img_file_reg} -dofin ${DOFS_DIR}/${sub_id}_${type}_to_${sub_id}_T1w.dof.gz -interp Linear
 	echo "done"
 fi
