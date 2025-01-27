@@ -16,7 +16,7 @@ synth_img_file=`echo ${nm_img_file} | sed s/${type}/synth-${type}/g`
 
 if [[ -f ${nm_img_file} ]]; then
 	echo -n "[Subject ${sub_id}] Propagating ${type} image to MNI space ... "
-	${MIRTK_BIN_DIR}/mirtk transform-image ${nm_img_file} ${REG_MNI_DIR}/${sub_id}_${type}.nii.gz -target ${TEMPLATE_DIR}/synth_template.nii.gz -dofin ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz
+	${MIRTK_BIN_DIR}/mirtk transform-image ${nm_img_file} ${REG_MNI_DIR}/${sub_id}_${type}.nii.gz -target ${TEMPLATE_DIR}/synth_template.nii.gz -dofin ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -interp Linear
 	echo "done"
 	
 	echo -n "[Subject ${sub_id}] Computing masked version of ${type} image in MNI space ... "
@@ -26,7 +26,7 @@ fi
 
 if [[ -f ${synth_img_file} ]]; then
 	echo -n "[Subject ${sub_id}] Propagating synthetic ${type} image to MNI space ... "
-	${MIRTK_BIN_DIR}/mirtk transform-image ${synth_img_file} ${REG_MNI_DIR}/${sub_id}_synth-${type}.nii.gz -target ${TEMPLATE_DIR}/synth_template.nii.gz -dofin ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz
+	${MIRTK_BIN_DIR}/mirtk transform-image ${synth_img_file} ${REG_MNI_DIR}/${sub_id}_synth-${type}.nii.gz -target ${TEMPLATE_DIR}/synth_template.nii.gz -dofin ${DOFS_DIR}/${sub_id}_synth-${type}_to_template_ffd.dof.gz -interp Linear
 	echo "done"
 	
 	echo -n "[Subject ${sub_id}] Computing masked version of synthetic ${type} image in MNI space ... "
