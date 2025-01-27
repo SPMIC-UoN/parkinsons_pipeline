@@ -41,7 +41,7 @@ ${GITHUB_ROOT}
 </pre>
 
 * `${subject_id}` is a unique identifier for each subject that can have any format.
-* `${timepoint}` is the timepoint of the data (for longitudinal studies) and **must** be a single integer starting from "1" for baseline data then "2" for first follow-up, and so on. If no longitudinal data is used, this can be any integer from "1" onwards.
+* `${timepoint}` is the timepoint of the data (for longitudinal studies) and **must** be a single digit integer, typically starting from "1" for baseline data then "2" for first follow-up, and so on. If no longitudinal data is used, this can be any single digit integer from "1" onwards. 
 * `${nm_seq_type}` is the name of the neuromelanin-sensitive sequence this data represent and can have any format but **must** be setup as a sequence type (see [Neuromelanin-sensitive sequence names](#neuromelanin-sensitive-sequence-names)).
 
 ### Environmental variables
@@ -80,7 +80,3 @@ ${GITHUB_ROOT}
 * `dofs` contains all the intermediate MIRTK transformations files.
 * `MPRAGE_space` contains all the intermediate data in T1w structural space.
 * `MNI_space` contains all the processed data in MNI152 space. This is the data that should be used for further analysis.
-
-### Inhomogeneity-corrected data
-
-The processed neuromelanin-sensitive data in the `MPRAGE_space` and `MNI_space` folders will include a version with `-corrected` appended in the file name (before the `.nii.gz` extension). This corresponds to data that has been corrected for inhomogeneities within the brainstem area (`MPRAGE_space` folder) and then transformed into MNI152 space (`MNI_space` folder). We recommend to use the `-corrected` data within the `MNI_space` folder for further analyses.
