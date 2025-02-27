@@ -20,7 +20,7 @@ The Parkinson's Pipeline has the following software requirements:
 
 4. Medical Image Registration ToolKit (https://github.com/BioMedIA/MIRTK).
 
-5. MATLAB (we have tested version R2018a, but later versions and some older versions should work as well).
+5. MATLAB (we have tested versions R2018a and R2019b, but later versions and some older versions should work as well).
 
 -----
 
