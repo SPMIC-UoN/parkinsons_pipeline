@@ -1,5 +1,5 @@
 function struc_posterior_maps = compute_posteriors(img, struc_prior_maps)
-    %warning('off', 'stats:gmdistribution:FailedToConvergeReps');
+    warning('off', 'stats:gmdistribution:FailedToConvergeReps');
 
     background_prior_map = struc_prior_maps.background_prior;
     brainstem_prior_map = struc_prior_maps.brainstem_prior;
@@ -9,7 +9,10 @@ function struc_posterior_maps = compute_posteriors(img, struc_prior_maps)
     img_size = size(img);
     max_iterations = 20;
 
-    roi_voxels = (background_prior_map(:) + brainstem_prior_map(:) + l_sn_prior_map(:) + r_sn_prior_map(:) > 0.999) & (img(:) > 0);
+    brainstem_mask = (brainstem_prior_map > 0.5);
+    background_thresh = compute_nm_background_threshold(img, brainstem_mask);
+
+    roi_voxels = (background_prior_map(:) + brainstem_prior_map(:) + l_sn_prior_map(:) + r_sn_prior_map(:) > 0.999) & (img(:) > background_thresh);
 
     img_data = img(roi_voxels);
     
@@ -75,6 +78,6 @@ function struc_posterior_maps = compute_posteriors(img, struc_prior_maps)
     struc_posterior_maps.r_sn_posterior = zeros(img_size);
     struc_posterior_maps.r_sn_posterior(roi_voxels) = scores_r_sn ./ norm_factor;
     
-    %warning('on', 'stats:gmdistribution:FailedToConvergeReps');
+    warning('on', 'stats:gmdistribution:FailedToConvergeReps');
 end
 
