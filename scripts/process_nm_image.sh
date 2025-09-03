@@ -19,7 +19,7 @@ nm_img_file_orig=${DATA_DIR}/${sub_id}_${type}.nii.gz
 nm_img_file_reg=${REG_DIR}/${sub_id}_${type}.nii.gz
 
 if [[ -f ${nm_img_file_orig} ]]; then
-	echo -n "[Subject ${sub_id}] Copying corrected ${type} image ... "
+	echo -n "[Subject ${sub_id}] Copying ${type} image ... "
 	cp ${nm_img_file_orig} ${nm_img_file_reg}
 	echo "done"
 
